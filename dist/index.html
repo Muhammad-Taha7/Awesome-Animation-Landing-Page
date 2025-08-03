@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Hero Section</title>
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@latest/build/spline-viewer.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .typing {
+      border-right: 2px solid #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 2s steps(30, end) forwards, blink 0.7s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-poppins relative">
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="fixed top-0 left-[-100%] w-[80%] h-full bg-black z-50 p-6 transition-all duration-300 ease-in-out flex flex-col gap-6 text-xl font-medium">
+    <button onclick="toggleMenu()" class="text-white text-2xl self-end">✕</button>
+    <a href="#" class="hover:text-gray-400 duration-300">Home</a>
+    <a href="#" class="hover:text-gray-400 duration-300">About</a>
+    <a href="#" class="hover:text-gray-400 duration-300">Collections</a>
+    <a href="#" class="hover:text-gray-400 duration-300">Contact</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="w-full flex justify-between items-center px-6 py-5 lg:px-10">
+    <div class="text-[2rem] font-bold">TAHA</div>
+    <div class="hidden md:flex items-center gap-8 text-[1.2rem]">
+      <a href="#" class="hover:text-gray-400 duration-300">Home</a>
+      <a href="#" class="hover:text-gray-400 duration-300">About</a>
+      <a href="#" class="hover:text-gray-400 duration-300">Collections</a>
+      <a href="#" class="hover:text-gray-400 duration-300">Contact</a>
+    </div>
+    <button onclick="toggleMenu()" class="md:hidden text-3xl">☰</button>
+  </nav>
+
+  <!-- Main Section -->
+  <div class="flex flex-col lg:flex-row items-center justify-between px-6 lg:px-24 py-16 min-h-[90vh]">
+    
+    <!-- Left Side: Text -->
+    <div class="w-full lg:w-1/2 mb-12 lg:mb-0">
+      <h1 id="typeText" class="text-3xl sm:text-4xl md:text-5xl font-bold h-20"></h1>
+      <p class="text-gray-300 mt-6 text-lg max-w-md">I'm passionate about building responsive, interactive websites with clean design and powerful functionality.</p>
+    </div>
+
+    <!-- Right Side: Spline Component -->
+    <div class="w-full lg:w-1/2 h-[30rem] sm:h-[35rem] md:h-[40rem]">
+      <spline-viewer url="https://prod.spline.design/nFYlENai9VQOa-rO/scene.splinecode"></spline-viewer>
+    </div>
+  </div>
+
+  <!-- Typing JS -->
+  <script>
+    const phrases = [
+      "I am a Frontend Dev.",
+      "I build Clean Interfaces",
+     
+    ];
+    const el = document.getElementById('typeText');
+    let phraseIndex = 0;
+
+    function typeWriter(text, i = 0) {
+      if (i <= text.length) {
+        el.innerHTML = `<span class="typing">${text.slice(0, i)}</span>`;
+        setTimeout(() => typeWriter(text, i + 1), 100);
+      } else {
+        setTimeout(() => eraseText(text), 2000);
+      }
+    }
+
+    function eraseText(text, i = text.length) {
+      if (i >= 0) {
+        el.innerHTML = `<span class="typing">${text.slice(0, i)}</span>`;
+        setTimeout(() => eraseText(text, i - 1), 50);
+      } else {
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        typeWriter(phrases[phraseIndex]);
+      }
+    }
+
+    typeWriter(phrases[0]);
+
+    // Hamburger Toggle
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('left-0');
+      sidebar.classList.toggle('left-[-100%]');
+    }
+  </script>
+
+</body>
+</html>
