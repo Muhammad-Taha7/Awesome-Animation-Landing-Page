@@ -67,34 +67,50 @@
 
   <!-- Typing JS -->
   <script>
-    const phrases = [
-      "I am a Frontend Dev.",
-      "I build Clean Interfaces",
-     
-    ];
-    const el = document.getElementById('typeText');
-    let phraseIndex = 0;
+const phrases = [
+  "I am a Frontend Dev.",
+  "I build Clean Interfaces",
+];
 
-    function typeWriter(text, i = 0) {
-      if (i <= text.length) {
-        el.innerHTML = `<span class="typing">${text.slice(0, i)}</span>`;
-        setTimeout(() => typeWriter(text, i + 1), 100);
-      } else {
-        setTimeout(() => eraseText(text), 2000);
-      }
-    }
+const el = document.getElementById("typeText");
+let currentPhrase = 0;
+let currentChar = 0;
+let isDeleting = false;
 
-    function eraseText(text, i = text.length) {
-      if (i >= 0) {
-        el.innerHTML = `<span class="typing">${text.slice(0, i)}</span>`;
-        setTimeout(() => eraseText(text, i - 1), 50);
-      } else {
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        typeWriter(phrases[phraseIndex]);
-      }
-    }
+function typeEffect() {
+  const text = phrases[currentPhrase];
+  
+  // Update characters
+  if (isDeleting) {
+    currentChar--;
+  } else {
+    currentChar++;
+  }
 
-    typeWriter(phrases[0]);
+  // Show the current text
+  el.innerHTML = `<span class="border-r-2 border-black animate-pulse">${text.substring(0, currentChar)}</span>`;
+
+  // Speed control
+  let speed = isDeleting ? 50 : 100;
+
+  // If fully typed
+  if (!isDeleting && currentChar === text.length) {
+    speed = 2000;
+    isDeleting = true;
+  }
+
+  // If fully deleted
+  if (isDeleting && currentChar === 0) {
+    isDeleting = false;
+    currentPhrase = (currentPhrase + 1) % phrases.length;
+    speed = 500;
+  }
+
+  setTimeout(typeEffect, speed);
+}
+
+// Start effect
+typeEffect();
 
     // Hamburger Toggle
     function toggleMenu() {
